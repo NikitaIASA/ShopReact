@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import {Routes, Route} from "react-router-dom";
+import AddPost from "./pages/AddPost/AddPost";
+import AnotherAccount from "./pages/AnotherAcount/AnotherAccount";
+import BusinessAccount from "./pages/BusinessAccount/BusinessAccount";
+import MyAccount from "./pages/MyAccount/MyAccount";
+import Home from "./pages/Home/Home";
+import Product from "./pages/Product/Product";
+import './scss/style.scss';
+import Header from "./layout/Header/Header";
 
 function App() {
+  const [user, setUser] = React.useState({});
+  
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem('user')) !== null) {
+      setUser(JSON.parse(localStorage.getItem('user')));
+    }
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header user={user} setUser={setUser}/>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/myaccount" element={<MyAccount/>}/>
+        <Route path="/businessaccount" element={<BusinessAccount/>}/>
+        <Route path="/anotheraccount" element={<AnotherAccount/>}/>
+        <Route path="/addpost" element={<AddPost/>}/>
+        <Route path="/product" element={<Product/>}/>
+      </Routes>
     </div>
   );
 }
